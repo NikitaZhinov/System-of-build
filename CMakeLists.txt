@@ -4,4 +4,4 @@ project(sob)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
-add_executable(${PROJECT_NAME} "src/main.cpp" "src/sob.ixx"  "src/operators.ixx" "src/common.ixx")
+add_executable(${PROJECT_NAME} "src/main.cpp" "src/sob.ixx"    "src/lexer.ixx")

@@ -1,5 +1,5 @@
 import SoB;
 
 int main(int argc, const char **argv) {
-    return sob::run(argc, argv);
+    return sob::Sob::run(argc, argv);
 }
