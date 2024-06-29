@@ -5,4 +5,3 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 add_executable(${PROJECT_NAME} "src/main.cpp" "src/sob.cpp" "src/parser.cpp")
-target_include_directories(${PROJECT_NAME} PRIVATE include)

@@ -5,14 +5,12 @@
 #include <string>
 #include <vector>
 
-namespace sob {
-    enum Error {
-        OK,
-        File_not_found,
-        Invalid_input_parametrs,
-    };
+enum Error {
+    OK,
+    File_not_found,
+    Invalid_input_parametrs,
+};
 
-    struct Variable {
-        std::string name;
-    };
-} // namespace sob
+struct Variable {
+    std::string name;
+};

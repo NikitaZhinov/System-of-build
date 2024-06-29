@@ -1,4 +1,4 @@
 build/
 .vs/
 CMakeSettings.json
-*.pdb
+.cache
