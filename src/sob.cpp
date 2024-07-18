@@ -1,9 +1,10 @@
 #include "sob.h"
 
 #include <print>
+#include <cstring>
 
 namespace sob {
-    constexpr Error::Error() : id(OK), text("The build was completed successfully.") {}
+    Error::Error() : id(OK), text("The build was completed successfully.") {}
 
     void SOB::parsInputArgs(int argc, const char **argv) {
         switch (argc) {
@@ -45,9 +46,9 @@ namespace sob {
         std::print("{}", error_code.text);
     }
 
-    constexpr SOB::SOB() : default_name_file(".sob") {}
+    SOB::SOB() : default_name_file(".sob") {}
 
-    constexpr SOB::SOB(const std::string &defalt_name) : default_name_file(defalt_name) {}
+    SOB::SOB(const std::string &defalt_name) : default_name_file(defalt_name) {}
 
     Error_id SOB::run(int argc, const char **argv) {
         parsInputArgs(argc, argv);

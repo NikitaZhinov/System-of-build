@@ -24,7 +24,7 @@ namespace sob {
          */
         std::string text;
 
-        constexpr Error();
+        Error();
     };
 
     /**
@@ -75,14 +75,14 @@ namespace sob {
         /**
          * @brief Default constructor. The variable default_name_file is equal to ".sob".
          */
-        constexpr SOB();
+        SOB();
 
         /**
          * @brief Sets default name of build file.
          * 
          * @param defalt_path - default name of build file.
          */
-        constexpr SOB(const std::string &defalt_name);
+        SOB(const std::string &defalt_name);
 
         /**
          * @brief The method of starting the build.
