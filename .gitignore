@@ -3,4 +3,4 @@ build/
 CMakeSettings.json
 .cache
 .build-config
-
+out/

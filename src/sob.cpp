@@ -1,48 +1,58 @@
-#include "../include/sob.h"
+#include "sob.h"
 
-Error Sob::error_code = OK;
-std::string Sob::path_to_buildfile = ".sob";
-std::ifstream Sob::file;
-std::vector<std::string> Sob::code;
+#include <print>
 
-void Sob::parsInputParametrs(int argc, const char **argv) {
-    if (error_code != OK)
-        return;
+namespace sob {
+    constexpr Error::Error() : id(OK), text("The build was completed successfully.") {}
 
-    switch (argc) {
-        case 1:
-            break;
+    void SOB::parsInputArgs(int argc, const char **argv) {
+        switch (argc) {
+            case 1:
+                setPathToSobFile();
+                break;
 
-        case 2:
-            path_to_buildfile = argv[1];
-            break;
+            case 2:
+                setPathToSobFile(argv[1]);
+                break;
 
-        default:
-            error_code = Invalid_input_parametrs;
-            break;
+            default:
+                // TODO flags support
+                break;
+        }
     }
-}
 
-void Sob::getFile() {
-    if (error_code != OK)
-        return;
+    void SOB::setPathToSobFile() {
+        path_to_sob_file = default_name_file;
+    }
 
-    file.open(path_to_buildfile);
-    if (!file.is_open())
-        error_code = File_not_found;
-}
+    void SOB::setPathToSobFile(const char *path) {
+        std::string s;
+        for (int i = 1; i <= 4; i++)
+            s.push_back(path[strlen(path) - i]);
+        if (s == default_name_file)
+            path_to_sob_file = path;
+        else {
+            path_to_sob_file = path;
+            char last_char = path[strlen(path) - 1];
+            if (last_char == '\\' || last_char == '/')
+                path_to_sob_file += default_name_file;
+            else
+                path_to_sob_file += "/" + default_name_file;
+        }
+    }
 
-void Sob::parsFile() {
-    if (error_code != OK)
-        return;
+    void SOB::printError() {
+        std::print("{}", error_code.text);
+    }
 
-    error_code = Parser::parsFile(file);
-}
+    constexpr SOB::SOB() : default_name_file(".sob") {}
 
-Error Sob::run(int argc, const char **argv) {
-    parsInputParametrs(argc, argv); // parsing input parametrs
-    getFile();                      // get buildfile
-    parsFile();                     // parsing buildfile
+    constexpr SOB::SOB(const std::string &defalt_name) : default_name_file(defalt_name) {}
 
-    return error_code;
-}
+    Error_id SOB::run(int argc, const char **argv) {
+        parsInputArgs(argc, argv);
+
+        printError();
+        return error_code.id;
+    }
+} // namespace sob

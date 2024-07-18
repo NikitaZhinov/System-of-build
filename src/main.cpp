@@ -1,5 +1,9 @@
-#include "../include/sob.h"
+#include "sob.h"
 
+/**
+ * @brief Entry point.
+ */
 int main(int argc, const char **argv) {
-    return Sob::run(argc, argv);
+    sob::SOB s;
+    return s.run(argc, argv);
 }
