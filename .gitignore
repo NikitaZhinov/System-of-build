@@ -4,3 +4,4 @@ CMakeSettings.json
 .cache
 .build-config
 out/
+CMakePresets.json

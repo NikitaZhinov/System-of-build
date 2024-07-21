@@ -5,14 +5,17 @@ TARGET_2 = example1
 SRC_2 = main1.cpp
 
 set_build_folder: build
+set_c_standart: 17
 set_cpp_standart: "23"
 set_debug_mode: "On"
 
-if $SYSTEM == WIN then
-	set_compile_path: clang
+if $SYSTEM == WINDOWS then
+	set_compile_path: msvc
+elif $SYSTEM == LINUX then
+	set_compile_path: g++
 else
-	set_compile_path: gcc
+	set_compile_path: clang++
 endif
 
-add_executable: $TARGET_1 $(SRC_1)
-add_executable: $(TARGET_2) $SRC_2
+add_executable: $TARGET_1 $SRC_1
+add_executable: $TARGET_2 $SRC_2

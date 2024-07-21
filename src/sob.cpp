@@ -1,10 +1,18 @@
 #include "sob.h"
 
-#include <print>
+#include "lexer.h"
+
 #include <cstring>
+#include <format>
+#include <print>
 
 namespace sob {
     Error::Error() : id(OK), text("The build was completed successfully.") {}
+
+    void Error::set(const Error_id &id, const std::string &text) {
+        this->id = id;
+        this->text = text;
+    }
 
     void SOB::parsInputArgs(int argc, const char **argv) {
         switch (argc) {
@@ -42,8 +50,20 @@ namespace sob {
         }
     }
 
-    void SOB::printError() {
-        std::print("{}", error_code.text);
+    void SOB::openBuildFile() {
+        if (error_code.id != OK)
+            return;
+
+        build_file.open(path_to_sob_file);
+        if (!build_file.is_open())
+            error_code.set(FileNotFound, std::format("File {} doesn`t exist!", path_to_sob_file));
+    }
+
+    void SOB::parsBuildFile() {
+        if (error_code.id != OK)
+            return;
+
+        auto tokens = Lexer::getTokens(build_file);
     }
 
     SOB::SOB() : default_name_file(".sob") {}
@@ -52,8 +72,10 @@ namespace sob {
 
     Error_id SOB::run(int argc, const char **argv) {
         parsInputArgs(argc, argv);
+        openBuildFile();
+        parsBuildFile();
 
-        printError();
+        std::println("{}", error_code.text); // Prints the error text.
         return error_code.id;
     }
 } // namespace sob

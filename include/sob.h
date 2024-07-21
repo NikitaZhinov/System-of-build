@@ -1,6 +1,8 @@
 #pragma once
 
+#include <fstream>
 #include <string>
+#include <vector>
 
 namespace sob {
     /**
@@ -8,6 +10,8 @@ namespace sob {
      */
     enum Error_id {
         OK = 0,
+        InvalidInputArgument,
+        FileNotFound,
     };
 
     /**
@@ -20,15 +24,30 @@ namespace sob {
         Error_id id;
 
         /**
-         * @brief Error text. If the id is not OK, this text is displayed on the screen.
+         * @brief Error text.
+         * If the id is not OK, this text is displayed on the screen.
          */
         std::string text;
 
+        /**
+         * @brief Default constructor.
+         * The variable id is equal to OK
+         * and the variable text is equal to "The build was completed successfully.".
+         */
         Error();
+
+        /**
+         * @brief Sets id and text.
+         *
+         * @param id - new id.
+         * @param text - new text.
+         */
+        void set(const Error_id &id, const std::string &text);
     };
 
     /**
-     * @brief Class SOB. Starts the build using the run method.
+     * @brief Class SOB.
+     * Starts the build using the run method.
      */
     class SOB {
         /**
@@ -45,6 +64,11 @@ namespace sob {
          * @brief Path to ".sob" file.
          */
         std::string path_to_sob_file;
+
+        /**
+         * @brief Build file.
+         */
+        std::ifstream build_file;
 
         /**
          * @brief Parses the input arguments.
@@ -67,19 +91,25 @@ namespace sob {
         void setPathToSobFile(const char *path);
 
         /**
-         * @brief Prints the error text.
+         * @brief Opens the build file.
          */
-        void printError();
+        void openBuildFile();
+
+        /**
+         * @brief Parses the build file.
+         */
+        void parsBuildFile();
 
     public:
         /**
-         * @brief Default constructor. The variable default_name_file is equal to ".sob".
+         * @brief Default constructor.
+         * The variable default_name_file is equal to ".sob".
          */
         SOB();
 
         /**
          * @brief Sets default name of build file.
-         * 
+         *
          * @param defalt_path - default name of build file.
          */
         SOB(const std::string &defalt_name);
