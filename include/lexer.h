@@ -1,6 +1,10 @@
 #pragma once
 
+#include "build.h"
+
 #include <fstream>
+#include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -11,34 +15,8 @@ namespace sob {
      */
     class Lexer {
     public:
-        static const std::vector<std::string> KEY_WORDS;
-        static const std::vector<std::string> FUNCTIONS;
+        static const std::set<std::string> KEY_WORDS;
 
-        /**
-         * @brief A class for saving the token.
-         */
-        class Token {
-            enum TokenID {
-                // Operators
-                Args,
-                Assigment,
-                GetVar,
-                Compare,
-
-                // Other
-                String,
-                KeyWord,
-                Function,
-            };
-
-            std::string name;
-            TokenID id;
-
-        public:
-            Token(std::string &word);
-        };
-
-    private:
         /**
          * @brief A string with all operator characters.
          */
@@ -50,18 +28,60 @@ namespace sob {
         static const std::string PAIRED_OPERATOR_CHARS;
 
         /**
+         * @brief A class for saving the token.
+         */
+        class Token {
+        public:
+            enum TokenID {
+                // Operators
+
+                Assigment,
+                Compare,
+                OpenBracket,
+                CloseBracket,
+                Function,
+                Var,
+
+                // Other
+
+                String,
+                KeyWord,
+            };
+
+        private:
+            std::string name;
+            TokenID id;
+
+        public:
+            Token(std::string &word);
+            Token(const std::string &name, const TokenID &id);
+
+            const std::string &getName() const noexcept;
+            const TokenID &getId() const noexcept;
+        };
+
+        using vec_tokens = std::pair<std::vector<Token>, std::string>;
+        using vec_tokens_rows = std::vector<std::pair<std::vector<Token>, std::string>>;
+
+    private:
+        /**
          * @brief Rows from build file.
          */
         static std::vector<std::string> build_file_rows;
 
         /**
+         * @brief Tokens of rows from build file.
+         */
+        static vec_tokens tokens;
+
+        /**
          * @brief Tokens from build file.
          */
-        static std::vector<Token> tokens;
+        static vec_tokens_rows tokens_rows;
 
         /**
          * @brief Splitting of the build file by rows.
-         * 
+         *
          * @param build_file - the build file.
          */
         static void splitByRows(std::ifstream &build_file);
@@ -73,12 +93,12 @@ namespace sob {
 
     public:
         /**
-         * @brief Returns a vector of tokens of a build file.
-         * 
+         * @brief Returns a vector of tokens rows of a build file.
+         *
          * @param build_file - the build file.
-         * 
-         * @return A vector of tokens.
+         *
+         * @return tokens_rows.
          */
-        static std::vector<Token> getTokens(std::ifstream &build_file);
+        static vec_tokens_rows getTokens(std::ifstream &build_file);
     };
 } // namespace sob

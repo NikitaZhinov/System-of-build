@@ -1,19 +1,12 @@
 #include "sob.h"
 
 #include "lexer.h"
+#include "parser.h"
 
 #include <cstring>
-#include <format>
 #include <print>
 
 namespace sob {
-    Error::Error() : id(OK), text("The build was completed successfully.") {}
-
-    void Error::set(const Error_id &id, const std::string &text) {
-        this->id = id;
-        this->text = text;
-    }
-
     void SOB::parsInputArgs(int argc, const char **argv) {
         switch (argc) {
             case 1:
@@ -36,7 +29,7 @@ namespace sob {
 
     void SOB::setPathToSobFile(const char *path) {
         std::string s;
-        for (int i = 1; i <= 4; i++)
+        for (int i = 4; i > 0; i--)
             s.push_back(path[strlen(path) - i]);
         if (s == default_name_file)
             path_to_sob_file = path;
@@ -63,7 +56,10 @@ namespace sob {
         if (error_code.id != OK)
             return;
 
-        auto tokens = Lexer::getTokens(build_file);
+        Build b;
+        Parser p(Lexer::getTokens(build_file), &b, &error_code);
+        p.parsTokens();
+        b.build(); // TODO function build in Build class
     }
 
     SOB::SOB() : default_name_file(".sob") {}

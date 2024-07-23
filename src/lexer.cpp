@@ -1,31 +1,31 @@
 #include "lexer.h"
 
 namespace sob {
-    const std::vector<std::string> Lexer::KEY_WORDS = {
+    const std::set<std::string> Lexer::KEY_WORDS = {
         "if",
-        "then",
         "elif",
         "else",
         "endif",
+        "and",
+        "or",
     };
 
-    const std::vector<std::string> Lexer::FUNCTIONS = {
-        "set_build_folder",
-        "set_c_standart",
-        "set_cpp_standart",
-        "set_debug_mode",
-        "add_executable",
-    };
+    const std::string Lexer::OPERATOR_CHARS = "=()!$:";
+    const std::string Lexer::PAIRED_OPERATOR_CHARS = "=!";
 
     Lexer::Token::Token(std::string &word) : name(word), id(String) {
-        if (word == ":")
-            id = Args;
-        else if (word == "=")
+        if (word == "=")
             id = Assigment;
-        else if (word == "$")
-            id = GetVar;
-        else if (word == "==")
+        else if (word == "==" || word == "!=")
             id = Compare;
+        else if (word == "(")
+            id = OpenBracket;
+        else if (word == ")")
+            id = CloseBracket;
+        else if (word == ":")
+            id = Function;
+        else if (word == "$")
+            id = Var;
         else {
             for (const std::string &key_word : KEY_WORDS) {
                 if (key_word == word) {
@@ -33,21 +33,24 @@ namespace sob {
                     break;
                 }
             }
-            if (id == String) {
-                for (const std::string &func : FUNCTIONS) {
-                    if (func == word) {
-                        id = Function;
-                        break;
-                    }
-                }
-            }
         }
 
         word.clear();
     }
 
-    const std::string Lexer::OPERATOR_CHARS = "=:$";
-    const std::string Lexer::PAIRED_OPERATOR_CHARS = "=";
+    Lexer::Token::Token(const std::string &name, const TokenID &id) : name(name), id(id) {}
+
+    const std::string &Lexer::Token::getName() const noexcept {
+        return name;
+    }
+
+    const Lexer::Token::TokenID &Lexer::Token::getId() const noexcept {
+        return id;
+    }
+
+    std::vector<std::string> Lexer::build_file_rows;
+    Lexer::vec_tokens Lexer::tokens;
+    Lexer::vec_tokens_rows Lexer::tokens_rows;
 
     void Lexer::splitByRows(std::ifstream &build_file) {
         while (!build_file.eof()) {
@@ -58,6 +61,11 @@ namespace sob {
     }
 
     void Lexer::splitByTokens() {
+        auto pushWord = [&](std::string &word) {
+            if (!word.empty())
+                tokens.first.push_back(word);
+        };
+
         for (std::string &row : build_file_rows) {
             std::string word;
 
@@ -66,11 +74,10 @@ namespace sob {
                 if (c == '"' || c == '\'') {
                     is_str = !is_str;
                     if (!is_str)
-                        tokens.push_back(word);
+                        pushWord(word);
                     continue;
                 } else if (c == ' ' || c == '\t') {
-                    if (!word.empty())
-                        tokens.push_back(word);
+                    pushWord(word);
                     continue;
                 }
 
@@ -87,19 +94,29 @@ namespace sob {
                         PAIRED_OPERATOR_CHARS.find(c) != std::string::npos)
                         word.push_back(c);
                     else if (OPERATOR_CHARS.find(c) != std::string::npos) {
-                        tokens.push_back(word);
+                        pushWord(word);
+                        word.push_back(c);
+                    } else if (OPERATOR_CHARS.find(c) == std::string::npos &&
+                               OPERATOR_CHARS.find(last_char) != std::string::npos) {
+                        pushWord(word);
                         word.push_back(c);
                     } else
                         word.push_back(c);
                 }
             }
+
+            pushWord(word);
+
+            tokens.second = row;
+            tokens_rows.push_back(tokens);
+            tokens.first.clear();
         }
     }
 
-    std::vector<Lexer::Token> Lexer::getTokens(std::ifstream &build_file) {
+    Lexer::vec_tokens_rows Lexer::getTokens(std::ifstream &build_file) {
         splitByRows(build_file);
         splitByTokens();
 
-        return tokens;
+        return tokens_rows;
     }
 } // namespace sob
