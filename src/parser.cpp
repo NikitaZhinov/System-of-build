@@ -211,9 +211,12 @@ namespace sob {
                     build_class->setVariable("CPP_STANDART", first_param);
                 else if (name == "set_debug_mode")
                     build_class->setVariable("DEBUG_MODE", first_param);
-                else if (name == "set_c_compiler")
-                    build_class->setVariable("C_COMPILER", first_param);
-                else if (name == "set_cpp_compiler")
+                else if (name == "set_c_compiler") {
+                    if (first_param == "msvc")
+                        build_class->setVariable("C_COMPILER", "cl.exe");
+                    else
+                        build_class->setVariable("C_COMPILER", first_param);
+                } else if (name == "set_cpp_compiler")
                     build_class->setVariable("CPP_COMPILER", first_param);
                 else if (name == "add_executable") {
                     build_class->addExecutable(first_param);
