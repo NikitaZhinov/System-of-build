@@ -13,7 +13,7 @@ namespace sob {
         void setError(const std::string &row, std::size_t row_number, const std::string &text);
         std::vector<Lexer::Token> toPolishNotaion(const Lexer::vec_tokens &row, std::size_t &row_number);
         bool parsCondition(const Lexer::vec_tokens &row, std::size_t &row_number);
-        void conditional—onstructionPars(Lexer::vec_tokens_rows::const_iterator &row, std::size_t &row_number);
+        void conditionalConstructionPars(Lexer::vec_tokens_rows::const_iterator &row, std::size_t &row_number);
         bool parsRow(Lexer::vec_tokens_rows::const_iterator &row, std::size_t &row_number);
 
     public:
