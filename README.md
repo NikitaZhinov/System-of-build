@@ -27,10 +27,10 @@ add_executable: $TARGET_1 $SRC_1
 add_executable: $TARGET_2 $SRC_2
 ```
 
-Usage:
+Usage:\
 `sob [path_to_sob_file]`
 
-Example:
+Example:\
 project/\
 ---- .sob\
 ---- main.cpp
