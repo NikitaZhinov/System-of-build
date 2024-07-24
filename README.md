@@ -26,3 +26,39 @@ endif
 add_executable: $TARGET_1 $SRC_1
 add_executable: $TARGET_2 $SRC_2
 ```
+
+Usage:
+`sob [path_to_sob_file]`
+
+Example:
+project/\
+---- .sob\
+---- main.cpp
+
+.sob:
+```
+set_build_folder: build
+set_cpp_compiler: clang++
+add_executable: project main.cpp
+```
+
+main.cpp:
+```
+#include <iostream>
+
+int main() {
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
+}
+```
+
+build:\
+`sob` or `sob .sob`
+
+after build:\
+project/\
+---- build/\
+---- ---- main.cpp.o\
+---- ---- project\
+---- .sob\
+---- main.cpp
