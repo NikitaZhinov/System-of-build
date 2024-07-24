@@ -33,6 +33,11 @@ namespace sob {
          */
         std::ifstream build_file;
 
+        /**
+         * @brief A build class.
+         * Filled in by the parser.
+         * Then it starts the build.
+         */
         Build b;
 
         /**

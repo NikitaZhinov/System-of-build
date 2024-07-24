@@ -7,7 +7,7 @@ namespace sob {
      * @brief Enumeration of error codes.
      */
     enum Error_id {
-        OK = 0,
+        OK,
         InvalidInputArgument,
         FileNotFound,
         Syntax,

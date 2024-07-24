@@ -6,3 +6,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 add_executable(${PROJECT_NAME} "src/main.cpp" "src/sob.cpp" "src/lexer.cpp" "src/parser.cpp" "src/build.cpp" "src/error.cpp")
 target_include_directories(${PROJECT_NAME} PRIVATE "include")
+
+find_package(Doxygen REQUIRED)
+if(DOXYGEN_FOUND)
+	message("Doxygen build started")
+	add_custom_target(doxygen ALL
+        COMMAND ${DOXYGEN_EXECUTABLE} "docs"
+        WORKING_DIRECTORY "docs"
+        VERBATIM )
+else(DOXYGEN_FOUND)
+    message("Doxygen need to be installed to generate the doxygen documentation")
+endif(DOXYGEN_FOUND)

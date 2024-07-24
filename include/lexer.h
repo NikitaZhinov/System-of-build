@@ -15,6 +15,9 @@ namespace sob {
      */
     class Lexer {
     public:
+        /**
+         * @brief All keywords from syntax.
+         */
         static const std::set<std::string> KEY_WORDS;
 
         /**
@@ -49,14 +52,44 @@ namespace sob {
             };
 
         private:
+            /**
+             * @brief Token name.
+             */
             std::string name;
+
+            /**
+             * @brief Token id.
+             */
             TokenID id;
 
         public:
+            /**
+             * @brief A constructor that automatically determines the id for the token.
+             * 
+             * @param word - token name.
+             */
             Token(std::string &word);
+
+            /**
+             * @brief A constructor that sets the name and id for the token.
+             *
+             * @param name - token name.
+             * @param id - token id.
+             */
             Token(const std::string &name, const TokenID &id);
 
+            /**
+             * @brief Returns a token name.
+             * 
+             * @return A token name.
+             */
             const std::string &getName() const noexcept;
+
+            /**
+             * @brief Returns a token id.
+             * 
+             * @return A token id.
+             */
             const TokenID &getId() const noexcept;
         };
 
