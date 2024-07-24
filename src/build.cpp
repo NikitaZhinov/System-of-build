@@ -53,6 +53,7 @@ namespace sob {
         const std::string &c_standart = getVariableValue("C_STANDART");
         const std::string &cpp_compiler = getVariableValue("CPP_COMPILER");
         const std::string &cpp_standart = getVariableValue("CPP_STANDART");
+        std::string debug_mode = getVariableValue("DEBUG_MODE") == "On" ? "-g" : "";
 
         for (auto exe : executables) {
             std::string compiler = c_compiler;
@@ -68,11 +69,11 @@ namespace sob {
             }
 
             std::set<std::string> objs;
-            std::string cmd = std::format("{} -std={} -o {} ", compiler, standart, build_path.string() + "/" + exe.first);
+            std::string cmd = std::format("{} -std={} {} -o {} ", compiler, standart, debug_mode, build_path.string() + "/" + exe.first);
 
             for (const std::string &src_file : exe.second) {
                 std::string obj = build_path.string() + "/" + fs::path(src_file).filename().string() + ".o";
-                err = system(std::format("{} -std={} -c {} -o {}", compiler, standart, src_file, obj).c_str());
+                err = system(std::format("{} -std={} {} -c {} -o {}", compiler, standart, debug_mode, src_file, obj).c_str());
                 if (err)
                     break;
                 cmd += obj;
