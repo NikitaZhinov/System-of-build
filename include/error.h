@@ -11,6 +11,7 @@ namespace sob {
         InvalidInputArgument,
         FileNotFound,
         Syntax,
+        BuildError,
     };
 
     /**

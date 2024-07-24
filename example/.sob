@@ -9,12 +9,13 @@ set_c_standart: 17
 set_cpp_standart: "23"
 set_debug_mode: "On"
 
-if $SYSTEM == WINDOWS and $SYSTEM == LINUX
-	set_cpp_compiler: msvc
+if $SYSTEM == WINDOWS and ($SYSTEM != LINUX)
+	set_c_compiler: gcc
+	set_cpp_compiler: g++
 elif ($SYSTEM != APPLE)
 	set_cpp_compiler: "g++"
 else
-	set_cpp_compiler: clang++
+	set_cpp_compiler: 'clang++'
 endif
 
 add_executable: $TARGET_1 $SRC_1

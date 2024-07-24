@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "error.h"
+#include "build.h"
 
 namespace sob {
     /**
@@ -31,6 +32,8 @@ namespace sob {
          * @brief Build file.
          */
         std::ifstream build_file;
+
+        Build b;
 
         /**
          * @brief Parses the input arguments.

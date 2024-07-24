@@ -70,18 +70,24 @@ namespace sob {
             std::string word;
 
             bool is_str = false;
+            bool is_char = false;
             for (char &c : row) {
-                if (c == '"' || c == '\'') {
+                if (c == '"' && !is_char) {
                     is_str = !is_str;
                     if (!is_str)
                         pushWord(word);
                     continue;
-                } else if (c == ' ' || c == '\t') {
+                } else if (c == '\'' && !is_str) {
+                    is_char = !is_char;
+                    if (!is_char)
+                        pushWord(word);
+                    continue;
+                } else if ((c == ' ' || c == '\t') && !is_str && !is_char) {
                     pushWord(word);
                     continue;
                 }
 
-                if (is_str) {
+                if (is_str || is_char) {
                     word.push_back(c);
                     continue;
                 }

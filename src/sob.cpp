@@ -56,20 +56,20 @@ namespace sob {
         if (error_code.id != OK)
             return;
 
-        Build b;
         Parser p(Lexer::getTokens(build_file), &b, &error_code);
         p.parsTokens();
-        b.build(); // TODO function build in Build class
     }
 
-    SOB::SOB() : default_name_file(".sob") {}
+    SOB::SOB() : default_name_file(".sob"), b(&error_code) {}
 
-    SOB::SOB(const std::string &defalt_name) : default_name_file(defalt_name) {}
+    SOB::SOB(const std::string &defalt_name) : default_name_file(defalt_name), b(&error_code) {}
 
     Error_id SOB::run(int argc, const char **argv) {
         parsInputArgs(argc, argv);
         openBuildFile();
         parsBuildFile();
+
+        b.build();
 
         std::println("{}", error_code.text); // Prints the error text.
         return error_code.id;
