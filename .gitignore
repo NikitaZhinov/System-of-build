@@ -5,3 +5,4 @@ CMakeSettings.json
 .build-config
 out/
 CMakePresets.json
+docs/
