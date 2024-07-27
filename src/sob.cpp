@@ -5,6 +5,7 @@
 
 #include <cstring>
 #include <print>
+#include <filesystem>
 
 namespace sob {
     void SOB::setPathToSobFile() {
@@ -12,19 +13,11 @@ namespace sob {
     }
 
     void SOB::setPathToSobFile(const char *path) {
-        std::string s;
-        for (int i = 4; i > 0; i--)
-            s.push_back(path[strlen(path) - i]);
-        if (s == default_name_file)
+        std::filesystem::path s = path;
+        if (s.extension().string() == default_name_file)
             path_to_sob_file = path;
-        else {
-            path_to_sob_file = path;
-            char last_char = path[strlen(path) - 1];
-            if (last_char == '\\' || last_char == '/')
-                path_to_sob_file += default_name_file;
-            else
-                path_to_sob_file += "/" + default_name_file;
-        }
+        else if (std::filesystem::is_directory(s))
+            path_to_sob_file = s.string() + "/" + default_name_file;
     }
 
     void SOB::parsInputArgs(int argc, const char **argv) { // TODO flags support
