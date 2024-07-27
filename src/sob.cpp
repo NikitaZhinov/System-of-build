@@ -4,8 +4,8 @@
 #include "parser.h"
 
 #include <cstring>
-#include <print>
 #include <filesystem>
+#include <print>
 
 namespace sob {
     void SOB::setPathToSobFile() {
