@@ -13,28 +13,34 @@ namespace sob {
     const std::string Lexer::OPERATOR_CHARS = "=()!$:";
     const std::string Lexer::PAIRED_OPERATOR_CHARS = "=!";
 
-    Lexer::Token::Token(std::string &word) : name(word), id(String) {
-        if (word == "=")
+    void Lexer::Token::defineID() {
+        if (name == "=")
             id = Assigment;
-        else if (word == "==" || word == "!=")
+        else if (name == "==" || name == "!=")
             id = Compare;
-        else if (word == "(")
+        else if (name == "(")
             id = OpenBracket;
-        else if (word == ")")
+        else if (name == ")")
             id = CloseBracket;
-        else if (word == ":")
+        else if (name == ":")
             id = Function;
-        else if (word == "$")
+        else if (name == "$")
             id = Var;
         else {
             for (const std::string &key_word : KEY_WORDS) {
-                if (key_word == word) {
+                if (key_word == name) {
                     id = KeyWord;
                     break;
                 }
             }
         }
+    }
 
+    Lexer::Token::Token(const std::string &word) : name(word), id(String) {
+        defineID();
+    }
+
+    Lexer::Token::Token(std::string &&word) : Token(word) {
         word.clear();
     }
 
@@ -63,7 +69,7 @@ namespace sob {
     void Lexer::splitByTokens() {
         auto pushWord = [&](std::string &word) {
             if (!word.empty())
-                tokens.first.push_back(word);
+                tokens.first.push_back(std::move(word));
         };
 
         for (std::string &row : build_file_rows) {

@@ -125,8 +125,8 @@ namespace sob {
         setError(row.second, row_number, "Are you dumb? Or are you just pretending?");
         return false;
     }
-    
-    void Parser::conditionalConstructionPars(Lexer::vec_tokens_rows::const_iterator &row, std::size_t &row_number) {
+
+    void Parser::parsConditionalConstruction(Lexer::vec_tokens_rows::const_iterator &row, std::size_t &row_number) {
         if (error_code->id != OK)
             return;
 
@@ -146,8 +146,7 @@ namespace sob {
         };
 
         if (parsCondition(*row, row_number)) {
-            row++;
-            row_number++;
+            passIf();
 
             while (first != "elif" && first != "else" && first != "endif")
                 parsIf();
@@ -159,8 +158,9 @@ namespace sob {
                 passIf();
 
             if (first == "elif")
-                conditionalConstructionPars(row, row_number);
+                parsConditionalConstruction(row, row_number);
             else if (first == "else") {
+                passIf();
                 while (first != "endif")
                     parsIf();
             }
@@ -242,7 +242,7 @@ namespace sob {
             }
 
             if (first_elem->getName() == "if")
-                conditionalConstructionPars(row, row_number);
+                parsConditionalConstruction(row, row_number);
             else {
                 setError(row->second, row_number, "Undefined token");
                 return true;
@@ -260,9 +260,8 @@ namespace sob {
 
     void Parser::parsTokens() {
         std::size_t row_number = 1;
-        for (auto row = tokens.begin(); row != tokens.end(); row++) {
+        for (auto row = tokens.begin(); row != tokens.end(); row++)
             if (parsRow(row, row_number))
                 break;
-        }
     }
 } // namespace sob

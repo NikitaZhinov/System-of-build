@@ -8,10 +8,14 @@
 #include <vector>
 
 namespace sob {
+    class Test;
+
     /**
      * @brief A build class for the build itself.
      */
     class Build {
+        friend Test;
+
     public:
         using var_t = std::map<std::string, std::string>;
         using exe_t = std::map<std::string, std::set<std::string>>;
@@ -45,7 +49,7 @@ namespace sob {
 
         /**
          * @brief Adds a new variable or defines an exist variable.
-         * 
+         *
          * @param name - the name for the new variable or the name of an exist variable.
          * @param value - the value for a variable.
          */
@@ -53,14 +57,14 @@ namespace sob {
 
         /**
          * @brief Adds a new executable.
-         * 
+         *
          * @param name - the name for a new executable.
          */
         void addExecutable(const std::string &name);
 
         /**
          * @brief Adds the source file for an executable.
-         * 
+         *
          * @param name - the name of an executable.
          * @param src_file - the source file for an executable.
          */
@@ -68,7 +72,7 @@ namespace sob {
 
         /**
          * @brief Sets the new value for the exist variable.
-         * 
+         *
          * @param name - the name of a variable.
          * @param new_value - the new value for a variable.
          */
@@ -76,9 +80,9 @@ namespace sob {
 
         /**
          * @brief Returns a value of a variable.
-         * 
+         *
          * @param name - the name of a variable.
-         * 
+         *
          * @return A value of a variable.
          */
         const std::string &getVariableValue(const std::string &name);

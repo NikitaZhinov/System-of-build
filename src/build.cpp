@@ -47,7 +47,7 @@ namespace sob {
             }
         }
         if (!build_dir_is_exist)
-            system(("mkdir " + build_path.string()).c_str());
+            std::system(("mkdir " + build_path.string()).c_str());
 
         const std::string &c_compiler = getVariableValue("C_COMPILER");
         const std::string &c_standart = getVariableValue("C_STANDART");
@@ -73,7 +73,7 @@ namespace sob {
 
             for (const std::string &src_file : exe.second) {
                 std::string obj = build_path.string() + "/" + fs::path(src_file).filename().string() + ".o";
-                err = system(std::format("{} -std={} {} -c {} -o {}", compiler, standart, debug_mode, src_file, obj).c_str());
+                err = std::system(std::format("{} -std={} {} -c {} -o {}", compiler, standart, debug_mode, src_file, obj).c_str());
                 if (err)
                     break;
                 cmd += obj;
@@ -82,7 +82,7 @@ namespace sob {
             if (err)
                 continue;
 
-            system(cmd.c_str());
+            std::system(cmd.c_str());
         }
     }
 

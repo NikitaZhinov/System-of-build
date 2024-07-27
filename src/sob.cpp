@@ -7,22 +7,6 @@
 #include <print>
 
 namespace sob {
-    void SOB::parsInputArgs(int argc, const char **argv) {
-        switch (argc) {
-            case 1:
-                setPathToSobFile();
-                break;
-
-            case 2:
-                setPathToSobFile(argv[1]);
-                break;
-
-            default:
-                // TODO flags support
-                break;
-        }
-    }
-
     void SOB::setPathToSobFile() {
         path_to_sob_file = default_name_file;
     }
@@ -40,6 +24,18 @@ namespace sob {
                 path_to_sob_file += default_name_file;
             else
                 path_to_sob_file += "/" + default_name_file;
+        }
+    }
+
+    void SOB::parsInputArgs(int argc, const char **argv) { // TODO flags support
+        switch (argc) {
+            case 1:
+                setPathToSobFile();
+                break;
+
+            case 2:
+                setPathToSobFile(argv[1]);
+                break;
         }
     }
 

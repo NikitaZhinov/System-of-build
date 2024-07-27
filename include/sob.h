@@ -1,18 +1,22 @@
 #pragma once
 
+#include "build.h"
+#include "error.h"
+
 #include <fstream>
 #include <string>
 #include <vector>
 
-#include "error.h"
-#include "build.h"
-
 namespace sob {
+    class Test;
+
     /**
      * @brief Class SOB.
      * Starts the build using the run method.
      */
     class SOB {
+        friend Test;
+
         /**
          * @brief Error code.
          */
@@ -41,14 +45,6 @@ namespace sob {
         Build b;
 
         /**
-         * @brief Parses the input arguments.
-         *
-         * @param argc - the number of arguments.
-         * @param argv - an array of arguments.
-         */
-        void parsInputArgs(int argc, const char **argv);
-
-        /**
          * @brief Sets the default path to the build file.
          */
         void setPathToSobFile();
@@ -59,6 +55,14 @@ namespace sob {
          * @param path - the path to the assembly file.
          */
         void setPathToSobFile(const char *path);
+
+        /**
+         * @brief Parses the input arguments.
+         *
+         * @param argc - the number of arguments.
+         * @param argv - an array of arguments.
+         */
+        void parsInputArgs(int argc, const char **argv);
 
         /**
          * @brief Opens the build file.

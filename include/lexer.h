@@ -9,12 +9,15 @@
 #include <vector>
 
 namespace sob {
+    class Test;
+
     /**
      * @brief Static class.
      * Splits text of build file by tokens.
      */
     class Lexer {
-    public:
+        friend Test;
+
         /**
          * @brief All keywords from syntax.
          */
@@ -30,6 +33,7 @@ namespace sob {
          */
         static const std::string PAIRED_OPERATOR_CHARS;
 
+    public:
         /**
          * @brief A class for saving the token.
          */
@@ -62,13 +66,22 @@ namespace sob {
              */
             TokenID id;
 
+            void defineID();
+
         public:
             /**
-             * @brief A constructor that automatically determines the id for the token.
-             * 
+             * @brief A copy constructor that automatically determines the id for the token.
+             *
              * @param word - token name.
              */
-            Token(std::string &word);
+            Token(const std::string &word);
+
+            /**
+             * @brief A move constructor that automatically determines the id for the token.
+             *
+             * @param word - token name.
+             */
+            Token(std::string &&word);
 
             /**
              * @brief A constructor that sets the name and id for the token.
@@ -80,14 +93,14 @@ namespace sob {
 
             /**
              * @brief Returns a token name.
-             * 
+             *
              * @return A token name.
              */
             const std::string &getName() const noexcept;
 
             /**
              * @brief Returns a token id.
-             * 
+             *
              * @return A token id.
              */
             const TokenID &getId() const noexcept;
