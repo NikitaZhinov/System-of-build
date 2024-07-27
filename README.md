@@ -1,3 +1,5 @@
+# System-of-build v0.1
+
 ## **Introduction**
 
 SoB is a build system for the C and C++ languages, focused on ease of use and speed.
