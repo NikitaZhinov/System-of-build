@@ -45,7 +45,7 @@ namespace sob {
          *
          * @return A string in Polish notation.
          */
-        std::vector<Lexer::Token> toPolishNotaion(const Lexer::vec_tokens &row, std::size_t &row_number);
+        std::vector<Lexer::Token> toPolishNotaion(const Lexer::pair_vec_tokens_string &row, std::size_t &row_number);
 
         /**
          * @brief Parses the string with the condition.
@@ -55,7 +55,7 @@ namespace sob {
          *
          * @return True or false.
          */
-        bool parsCondition(const Lexer::vec_tokens &row, std::size_t &row_number);
+        bool parsCondition(const Lexer::pair_vec_tokens_string &row, std::size_t &row_number);
 
         /**
          * @brief Parses the conditional consturtion.

@@ -9,8 +9,9 @@ namespace sob {
         return t.getId();
     }
 
-    Lexer::vec_tokens_rows Test::lexer_splitByTokens(const std::vector<std::string> &build_file_rows) {
-        Lexer::build_file_rows = build_file_rows;
+    Lexer::vec_tokens_rows Test::lexer_splitByTokens(const std::vector<std::string> &tokens_rows) {
+        for (auto &row : tokens_rows)
+            Lexer::tokens_rows.push_back(Lexer::pair_vec_tokens_string(Lexer::vec_tokens(), row));
         Lexer::splitByTokens();
         return Lexer::tokens_rows;
     }

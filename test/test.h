@@ -14,8 +14,8 @@ namespace sob {
         Lexer::Token::TokenID lexer_Token_defineID(const std::string &word);
         Lexer::vec_tokens_rows lexer_splitByTokens(const std::vector<std::string> &build_file_rows);
 
-        std::vector<Lexer::Token> parser_toPolishNotaion(const Lexer::vec_tokens &row, std::size_t &row_number);
-        bool parser_parsCondition(const Lexer::vec_tokens &row, std::size_t &row_number);
+        std::vector<Lexer::Token> parser_toPolishNotaion(const Lexer::pair_vec_tokens_string &row, std::size_t &row_number);
+        bool parser_parsCondition(const Lexer::pair_vec_tokens_string &row, std::size_t &row_number);
         sob::Build::var_t parser_parsConditionalConstruction(const sob::Build::var_t &vars, const Lexer::vec_tokens_rows &rows, std::size_t &row_number);
         sob::Build::var_t parser_parsRow(const sob::Build::var_t &vars, const Lexer::vec_tokens_rows &rows, std::size_t &row_number);
     };

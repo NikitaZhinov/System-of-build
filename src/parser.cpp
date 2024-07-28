@@ -11,7 +11,7 @@ namespace sob {
                                             row));
     }
 
-    std::vector<Lexer::Token> Parser::toPolishNotaion(const Lexer::vec_tokens &row, std::size_t &row_number) {
+    std::vector<Lexer::Token> Parser::toPolishNotaion(const Lexer::pair_vec_tokens_string &row, std::size_t &row_number) {
         std::vector<Lexer::Token> res;
         std::stack<Lexer::Token> tokens_stack;
 
@@ -63,7 +63,7 @@ namespace sob {
         return res;
     }
 
-    bool Parser::parsCondition(const Lexer::vec_tokens &row, std::size_t &row_number) {
+    bool Parser::parsCondition(const Lexer::pair_vec_tokens_string &row, std::size_t &row_number) {
         auto polish_row = toPolishNotaion(row, row_number);
 
         if (error_code->id != OK)

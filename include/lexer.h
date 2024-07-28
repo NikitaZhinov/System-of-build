@@ -106,15 +106,11 @@ namespace sob {
             const TokenID &getId() const noexcept;
         };
 
-        using vec_tokens = std::pair<std::vector<Token>, std::string>;
-        using vec_tokens_rows = std::vector<std::pair<std::vector<Token>, std::string>>;
+        using vec_tokens = std::vector<Token>;
+        using pair_vec_tokens_string = std::pair<vec_tokens, std::string>;
+        using vec_tokens_rows = std::vector<pair_vec_tokens_string>;
 
     private:
-        /**
-         * @brief Rows from build file.
-         */
-        static std::vector<std::string> build_file_rows;
-
         /**
          * @brief Tokens of rows from build file.
          */

@@ -54,7 +54,6 @@ namespace sob {
         return id;
     }
 
-    std::vector<std::string> Lexer::build_file_rows;
     Lexer::vec_tokens Lexer::tokens;
     Lexer::vec_tokens_rows Lexer::tokens_rows;
 
@@ -62,17 +61,18 @@ namespace sob {
         while (!build_file.eof()) {
             std::string row;
             std::getline(build_file, row);
-            build_file_rows.push_back(row);
+            tokens_rows.push_back(std::pair<std::vector<Token>, std::string>(std::vector<Token>(), row));
         }
     }
 
     void Lexer::splitByTokens() {
         auto pushWord = [&](std::string &word) {
             if (!word.empty())
-                tokens.first.push_back(std::move(word));
+                tokens.push_back(std::move(word));
         };
 
-        for (std::string &row : build_file_rows) {
+        for (auto &tokens_row : tokens_rows) {
+            std::string &row = tokens_row.second;
             std::string word;
 
             bool is_str = false;
@@ -119,9 +119,8 @@ namespace sob {
 
             pushWord(word);
 
-            tokens.second = row;
-            tokens_rows.push_back(tokens);
-            tokens.first.clear();
+            tokens_row.first = tokens;
+            tokens.clear();
         }
     }
 

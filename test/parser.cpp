@@ -4,14 +4,14 @@
 #include <print>
 
 namespace sob {
-    std::vector<Lexer::Token> Test::parser_toPolishNotaion(const Lexer::vec_tokens &row, std::size_t &row_number) {
+    std::vector<Lexer::Token> Test::parser_toPolishNotaion(const Lexer::pair_vec_tokens_string &row, std::size_t &row_number) {
         Error e;
         Build b(&e);
         Parser p(Lexer::vec_tokens_rows(), &b, &e);
         return p.toPolishNotaion(row, row_number);
     }
 
-    bool Test::parser_parsCondition(const Lexer::vec_tokens &row, std::size_t &row_number) {
+    bool Test::parser_parsCondition(const Lexer::pair_vec_tokens_string &row, std::size_t &row_number) {
         Error e;
         Build b(&e);
         Parser p(Lexer::vec_tokens_rows(), &b, &e);
@@ -42,24 +42,24 @@ namespace sob {
 TEST(parser, toPolishNotaion) {
     sob::Test t;
 
-    sob::Lexer::vec_tokens in_value = sob::Lexer::vec_tokens({ sob::Lexer::Token("if"),
-                                                               sob::Lexer::Token("("),
-                                                               sob::Lexer::Token("$"),
-                                                               sob::Lexer::Token("SYSTEM"),
-                                                               sob::Lexer::Token("=="),
-                                                               sob::Lexer::Token("LINUX"),
-                                                               sob::Lexer::Token("or"),
-                                                               sob::Lexer::Token("$"),
-                                                               sob::Lexer::Token("SYSTEM"),
-                                                               sob::Lexer::Token("=="),
-                                                               sob::Lexer::Token("APPLE"),
-                                                               sob::Lexer::Token(")"),
-                                                               sob::Lexer::Token("and"),
-                                                               sob::Lexer::Token("$"),
-                                                               sob::Lexer::Token("SYSTEM"),
-                                                               sob::Lexer::Token("!="),
-                                                               sob::Lexer::Token("WINDOWS") },
-                                                             "if ($SYSTEM == LINUX or $SYSTEM == APPLE) and $SYSTEM != WINDOWS");
+    auto in_value = sob::Lexer::pair_vec_tokens_string({ sob::Lexer::Token("if"),
+                                                         sob::Lexer::Token("("),
+                                                         sob::Lexer::Token("$"),
+                                                         sob::Lexer::Token("SYSTEM"),
+                                                         sob::Lexer::Token("=="),
+                                                         sob::Lexer::Token("LINUX"),
+                                                         sob::Lexer::Token("or"),
+                                                         sob::Lexer::Token("$"),
+                                                         sob::Lexer::Token("SYSTEM"),
+                                                         sob::Lexer::Token("=="),
+                                                         sob::Lexer::Token("APPLE"),
+                                                         sob::Lexer::Token(")"),
+                                                         sob::Lexer::Token("and"),
+                                                         sob::Lexer::Token("$"),
+                                                         sob::Lexer::Token("SYSTEM"),
+                                                         sob::Lexer::Token("!="),
+                                                         sob::Lexer::Token("WINDOWS") },
+                                                       "if ($SYSTEM == LINUX or $SYSTEM == APPLE) and $SYSTEM != WINDOWS");
     std::size_t row_number = 0;
 
     std::vector<sob::Lexer::Token> ex_value = {
@@ -95,24 +95,24 @@ TEST(parser, toPolishNotaion) {
 TEST(parser, parsCondition) {
     sob::Test t;
 
-    sob::Lexer::vec_tokens in_value = sob::Lexer::vec_tokens({ sob::Lexer::Token("if"),
-                                                               sob::Lexer::Token("("),
-                                                               sob::Lexer::Token("$"),
-                                                               sob::Lexer::Token("SYSTEM"),
-                                                               sob::Lexer::Token("=="),
-                                                               sob::Lexer::Token("LINUX"),
-                                                               sob::Lexer::Token("or"),
-                                                               sob::Lexer::Token("$"),
-                                                               sob::Lexer::Token("SYSTEM"),
-                                                               sob::Lexer::Token("=="),
-                                                               sob::Lexer::Token("APPLE"),
-                                                               sob::Lexer::Token(")"),
-                                                               sob::Lexer::Token("and"),
-                                                               sob::Lexer::Token("$"),
-                                                               sob::Lexer::Token("SYSTEM"),
-                                                               sob::Lexer::Token("!="),
-                                                               sob::Lexer::Token("WINDOWS") },
-                                                             "if ($SYSTEM == LINUX or $SYSTEM == APPLE) and $SYSTEM != WINDOWS");
+    auto in_value = sob::Lexer::pair_vec_tokens_string({ sob::Lexer::Token("if"),
+                                                         sob::Lexer::Token("("),
+                                                         sob::Lexer::Token("$"),
+                                                         sob::Lexer::Token("SYSTEM"),
+                                                         sob::Lexer::Token("=="),
+                                                         sob::Lexer::Token("LINUX"),
+                                                         sob::Lexer::Token("or"),
+                                                         sob::Lexer::Token("$"),
+                                                         sob::Lexer::Token("SYSTEM"),
+                                                         sob::Lexer::Token("=="),
+                                                         sob::Lexer::Token("APPLE"),
+                                                         sob::Lexer::Token(")"),
+                                                         sob::Lexer::Token("and"),
+                                                         sob::Lexer::Token("$"),
+                                                         sob::Lexer::Token("SYSTEM"),
+                                                         sob::Lexer::Token("!="),
+                                                         sob::Lexer::Token("WINDOWS") },
+                                                       "if ($SYSTEM == LINUX or $SYSTEM == APPLE) and $SYSTEM != WINDOWS");
     std::size_t row_number = 0;
 
     bool ex_value =
